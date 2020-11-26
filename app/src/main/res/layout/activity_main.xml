@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/noir"
     tools:context=".MainActivity">
 
     <Button
@@ -38,7 +39,7 @@
         android:layout_height="wrap_content"
         android:format12Hour="hh:mm:ss a"
         android:format24Hour="HH:mm:ss"
-        android:textColor="#F6F6F6"
+        android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button_envoyer"
@@ -49,5 +50,6 @@
     <AnalogClock
         android:id="@+id/heure_analogique"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
