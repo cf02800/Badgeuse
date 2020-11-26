@@ -29,10 +29,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.phoneForm = (EditText) this.findViewById(R.id.phone);
-        this.messageForm = (EditText) this.findViewById(R.id.message);
+        this.phoneForm = (EditText) this.findViewById(R.id.editText_Numero);
 
-        this.sendButton = (Button) this.findViewById(R.id.button);
+        this.sendButton = (Button) this.findViewById(R.id.button_envoyer);
 
         this.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private void sendSMS_by_smsManager()  {
 
         String phoneNumber = this.phoneForm.getText().toString();
-        String message = this.messageForm.getText().toString();
 
         try {
             // Obtenir l'instance du manager SMS
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             // Envoyer le SMS
             smsManager.sendTextMessage(phoneNumber,
                     null,
-                    message,
+                    "coucou",
                     null,
                     null);
 
