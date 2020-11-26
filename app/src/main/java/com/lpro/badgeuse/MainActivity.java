@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText phoneForm;
     private EditText messageForm;
     private Button sendButton;
-    DateFormat format = new SimpleDateFormat("HH:mm:ss");
-    Date date = new Date();
+
 
 
     @Override
@@ -74,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             // Obtenir l'instance du manager SMS
             SmsManager smsManager = SmsManager.getDefault();
             // Envoyer le SMS
+            DateFormat format = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
             smsManager.sendTextMessage(phoneNumber,
                     null,
                     format.format(date),
