@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSION_REQUEST_CODE_SEND_SMS = 1;
@@ -23,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText phoneForm;
     private EditText messageForm;
     private Button sendButton;
+    DateFormat format = new SimpleDateFormat("HH:mm:ss");
+    Date date = new Date();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             // Envoyer le SMS
             smsManager.sendTextMessage(phoneNumber,
                     null,
-                    "coucou",
+                    format.format(date),
                     null,
                     null);
 
