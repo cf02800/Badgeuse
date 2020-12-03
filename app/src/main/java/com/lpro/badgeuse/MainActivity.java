@@ -5,9 +5,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -27,7 +30,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "AndroidExample";
 
     private EditText phoneForm;
-    private EditText messageForm;
+    Location gps_loc;
+    Location network_loc;
+    Location final_loc;
+    double longitude;
+    double latitude;
     private Button sendButton;
 
 
@@ -40,6 +47,38 @@ public class MainActivity extends AppCompatActivity {
         this.phoneForm = (EditText) this.findViewById(R.id.editText_Numero);
 
         this.sendButton = (Button) this.findViewById(R.id.button_envoyer);
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        try {
+
+            gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (gps_loc != null) {
+            final_loc = gps_loc;
+            latitude = final_loc.getLatitude();
+            longitude = final_loc.getLongitude();
+        }
+        else if (network_loc != null) {
+            final_loc = network_loc;
+            latitude = final_loc.getLatitude();
+            longitude = final_loc.getLongitude();
+        }
+        else {
+            latitude = 0.0;
+            longitude = 0.0;
+        }
 
         this.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
