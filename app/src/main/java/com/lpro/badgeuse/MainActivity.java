@@ -2,9 +2,11 @@ package com.lpro.badgeuse;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -67,16 +69,17 @@ public class MainActivity extends AppCompatActivity {
     }
     private void sendSMS_by_smsManager()  {
 
-        String phoneNumber = this.phoneForm.getText().toString();
-
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String Nom = preferences.getString("nom", "");
+        String Telephone = preferences.getString("phoneNo", "");
         try {
             // Obtenir l'instance du manager SMS
             SmsManager smsManager = SmsManager.getDefault();
             // Envoyer le SMS
             DateFormat format = new SimpleDateFormat("HH:mm:ss");
             Date date = new Date();
-            smsManager.sendTextMessage(phoneNumber,
-                    null,
+            smsManager.sendTextMessage(Telephone,
+                    null, Nom + "\n" +
                     format.format(date),
                     null,
                     null);
@@ -139,4 +142,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }
