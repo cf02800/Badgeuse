@@ -38,7 +38,6 @@ public class SettingsActivity extends AppCompatActivity {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
-
                         return true;
                     }
                 });

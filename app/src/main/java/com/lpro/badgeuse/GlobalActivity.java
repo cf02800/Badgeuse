@@ -11,7 +11,6 @@ public class GlobalActivity extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPreferences userInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = userInfo.edit();
         String Numero = userInfo.getString("phoneNo","");
         String nom = userInfo.getString("nom", "");
         if((nom.isEmpty()) || (Numero.isEmpty()))
