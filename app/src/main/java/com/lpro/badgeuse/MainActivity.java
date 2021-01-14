@@ -2,10 +2,15 @@ package com.lpro.badgeuse;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -24,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "AndroidExample";
 
-    private EditText phoneForm;
-    private EditText messageForm;
-    private Button sendButton;
 
+    private EditText phoneForm;
+    Location gps_loc;
+    Location network_loc;
+    Location final_loc;
+    double longitude;
+    double latitude;
+    private Button sendButton;
+    double latitudeTravail = 49.660865783691406;
+    double longitudeTravail = 3.3454840183258057;
 
 
     @Override
@@ -35,9 +46,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         this.phoneForm = (EditText) this.findViewById(R.id.editText_Numero);
 
         this.sendButton = (Button) this.findViewById(R.id.button_envoyer);
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        try {
+
+            gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (gps_loc != null) {
+            final_loc = gps_loc;
+            latitude = final_loc.getLatitude();
+            longitude = final_loc.getLongitude();
+        }
+        else if (network_loc != null) {
+            final_loc = network_loc;
+            latitude = final_loc.getLatitude();
+            longitude = final_loc.getLongitude();
+        }
+        else {
+            latitude = 0.0;
+            longitude = 0.0;
+        }
 
         this.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,29 +109,31 @@ public class MainActivity extends AppCompatActivity {
         this.sendSMS_by_smsManager();
     }
     private void sendSMS_by_smsManager()  {
-
-        String phoneNumber = this.phoneForm.getText().toString();
-
-        try {
+        
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String Nom = preferences.getString("nom", "");
+        String Telephone = preferences.getString("phoneNo", "");
+        double distance = getDistanceBetweenTwoPoints(latitude,longitude,latitudeTravail,longitudeTravail);
+        // Vérification
+        if (distance <= 500) {
             // Obtenir l'instance du manager SMS
             SmsManager smsManager = SmsManager.getDefault();
             // Envoyer le SMS
-            DateFormat format = new SimpleDateFormat("HH:mm:ss");
-            Date date = new Date();
-            smsManager.sendTextMessage(phoneNumber,
+            String time = new SimpleDateFormat("HH:mm").format(new Date());
+            smsManager.sendTextMessage(Telephone,
                     null,
-                    format.format(date),
+                    Nom + "\n" + time,
                     null,
                     null);
 
-            Log.i( LOG_TAG,"Your sms has successfully sent!");
-            Toast.makeText(getApplicationContext(),"Your sms has successfully sent!",
+            Log.i( LOG_TAG,"Le message est bien envoyé !");
+            Toast.makeText(getApplicationContext(),"Le message est bien envoyé !",
                     Toast.LENGTH_LONG).show();
-        } catch (Exception ex) {
-            Log.e( LOG_TAG,"Your sms has failed...", ex);
-            Toast.makeText(getApplicationContext(),"Your sms has failed... " + ex.getMessage(),
+        }
+        else {
+            Log.e( LOG_TAG,"T'es trop loin du lieu de travail !");
+            Toast.makeText(getApplicationContext(),"T'es trop loin du lieu de travail !",
                     Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
         }
     }
 
@@ -139,4 +184,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public double getDistanceBetweenTwoPoints(double lat1, double lon1, double lat2, double lon2){
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lon2-lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+
+        return dist;
+    }
+
+
+
 }
