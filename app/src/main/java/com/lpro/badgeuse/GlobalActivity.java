@@ -20,10 +20,5 @@ public class GlobalActivity extends Application {
             startActivity(intent);
 
         }
-        else {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
     }
 }

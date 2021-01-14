@@ -26,6 +26,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSION_REQUEST_CODE_SEND_SMS = 1;
+    private static final int MY_PERMISSION_REQUEST_CODE_LOCATION = 2;
 
     private static final String LOG_TAG = "AndroidExample";
 
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     double longitude;
     double latitude;
     private Button sendButton;
-    double latitudeTravail = 49.660865783691406;
-    double longitudeTravail = 3.3454840183258057;
+    double latitudeTravail = 49.960667;
+    double longitudeTravail = 3.328444;
 
 
     @Override
@@ -81,28 +82,15 @@ public class MainActivity extends AppCompatActivity {
             latitude = 0.0;
             longitude = 0.0;
         }
-
-        this.sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 askPermissionAndSendSMS();
-            }
-        });
+
     }
 
     private void askPermissionAndSendSMS() {
         if (android.os.Build.VERSION.SDK_INT >=  android.os.Build.VERSION_CODES.M) { // 23
-
-            // Vérifier permission d'envoyer des SMS
-            int sendSmsPermisson = ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.SEND_SMS);
-
-            if (sendSmsPermisson != PackageManager.PERMISSION_GRANTED) {
-                // If don't have permission so prompt the user.
-                this.requestPermissions(
-                        new String[]{Manifest.permission.SEND_SMS},
-                        MY_PERMISSION_REQUEST_CODE_SEND_SMS
-                );
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED  && ActivityCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.SEND_SMS}, 1);
                 return;
             }
         }
@@ -124,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
             // Obtenir l'instance du manager SMS
             SmsManager smsManager = SmsManager.getDefault();
             // Envoyer le SMS
-            String time = new SimpleDateFormat("HH:mm").format(new Date());
+            String time = new SimpleDateFormat("dd/MM/yyyy " + "à " +"HH:mm:ss").format(new Date());
             smsManager.sendTextMessage(Telephone,
                     null,
-                    Nom + "\n" + time,
+                    Nom + " est présent sur le site depuis le: " + time,
                     null,
                     null);
 
@@ -151,10 +139,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //
         switch (requestCode) {
-            case MY_PERMISSION_REQUEST_CODE_SEND_SMS: {
-
-                // Note: If request is cancelled, the result arrays are empty.
-                // Permissions granted (SEND_SMS).
+            case 1: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
@@ -169,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Permission denied!", Toast.LENGTH_LONG).show();
                 }
                 break;
+
             }
         }
     }
@@ -178,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == MY_PERMISSION_REQUEST_CODE_SEND_SMS) {
+        if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 // Do something with data (Result returned).
                 Toast.makeText(this, "Action OK", Toast.LENGTH_LONG).show();
