@@ -3,6 +3,7 @@
     package="com.lpro.badgeuse">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".GlobalActivity"
@@ -22,7 +23,8 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Parametres"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

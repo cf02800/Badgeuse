@@ -1,9 +1,5 @@
 package com.lpro.badgeuse;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.preference.PreferenceManager;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_CODE_SEND_SMS = 1;
 
     private static final String LOG_TAG = "AndroidExample";
-
-    private EditText phoneForm;
-    private EditText messageForm;
     private Button sendButton;
 
 
