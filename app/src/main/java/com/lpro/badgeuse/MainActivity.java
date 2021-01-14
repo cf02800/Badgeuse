@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private Button sendButton;
     double latitudeTravail = 49.660865783691406;
     double longitudeTravail = 3.3454840183258057;
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
-    private static final long MIN_TIME_BW_UPDATES = 0;
 
 
     @Override
