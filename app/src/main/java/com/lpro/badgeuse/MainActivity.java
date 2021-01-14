@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "AndroidExample";
 
+
     private EditText phoneForm;
     Location gps_loc;
     Location network_loc;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private Button sendButton;
     double latitudeTravail = 49.660865783691406;
     double longitudeTravail = 3.3454840183258057;
-
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
+    private static final long MIN_TIME_BW_UPDATES = 0;
 
 
     @Override
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         this.sendSMS_by_smsManager();
     }
     private void sendSMS_by_smsManager()  {
+        
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String Nom = preferences.getString("nom", "");
         String Telephone = preferences.getString("phoneNo", "");
