@@ -1,8 +1,10 @@
 package com.lpro.badgeuse;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -11,10 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.preference.PreferenceManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUEST_CODE_SEND_SMS = 1;
 
     private static final String LOG_TAG = "AndroidExample";
+
+    private EditText phoneForm;
+    private EditText messageForm;
     private Button sendButton;
 
 
@@ -66,17 +67,16 @@ public class MainActivity extends AppCompatActivity {
     }
     private void sendSMS_by_smsManager()  {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String Nom = preferences.getString("nom", "");
-        String Telephone = preferences.getString("phoneNo", "");
+        String phoneNumber = this.phoneForm.getText().toString();
+
         try {
             // Obtenir l'instance du manager SMS
             SmsManager smsManager = SmsManager.getDefault();
             // Envoyer le SMS
             DateFormat format = new SimpleDateFormat("HH:mm:ss");
             Date date = new Date();
-            smsManager.sendTextMessage(Telephone,
-                    null, Nom + "\n" +
+            smsManager.sendTextMessage(phoneNumber,
+                    null,
                     format.format(date),
                     null,
                     null);
@@ -139,5 +139,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 }
