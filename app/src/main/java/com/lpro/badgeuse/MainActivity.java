@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     double longitude;
     double latitude;
     private Button sendButton;
-    double latitudeTravail = 49.960667;
-    double longitudeTravail = 3.328444;
+    double latitudeTravail = 49.660865783691406;
+    double longitudeTravail = 3.3454840183258057;
 
 
     @Override
@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         double distance = getDistanceBetweenTwoPoints(latitude,longitude,latitudeTravail,longitudeTravail);
         // Vérification
         if (distance == 1000) {
-            Log.e( LOG_TAG,"ça ne marche pas");
-            Toast.makeText(getApplicationContext(),"ça ne marche pas",
+            Log.e( LOG_TAG,"Probleme de permissions");
+            Toast.makeText(getApplicationContext(),"Probleme de permissions",
                     Toast.LENGTH_LONG).show();
         }
         else if (distance <= 500) {
