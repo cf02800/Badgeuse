@@ -130,6 +130,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Le message est bien envoyé !",
                     Toast.LENGTH_LONG).show();
         }
+        else if (distance == 0) {
+            Log.e( LOG_TAG,"ça ne marche pas");
+            Toast.makeText(getApplicationContext(),"ça ne marche pas",
+                    Toast.LENGTH_LONG).show();
+        }
         else {
             Log.e( LOG_TAG,"T'es trop loin du lieu de travail !");
             Toast.makeText(getApplicationContext(),"T'es trop loin du lieu de travail !",
@@ -186,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public double getDistanceBetweenTwoPoints(double lat1, double lon1, double lat2, double lon2){
+        if (lat1 == 0 && lon1 == 0) {
+            return 0;
+        }
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(lat2-lat1);
         double dLng = Math.toRadians(lon2-lon1);
