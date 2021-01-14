@@ -115,7 +115,12 @@ public class MainActivity extends AppCompatActivity {
         String Telephone = preferences.getString("phoneNo", "");
         double distance = getDistanceBetweenTwoPoints(latitude,longitude,latitudeTravail,longitudeTravail);
         // Vérification
-        if (distance <= 500) {
+        if (distance == 1000) {
+            Log.e( LOG_TAG,"ça ne marche pas");
+            Toast.makeText(getApplicationContext(),"ça ne marche pas",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if (distance <= 500) {
             // Obtenir l'instance du manager SMS
             SmsManager smsManager = SmsManager.getDefault();
             // Envoyer le SMS
@@ -128,11 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i( LOG_TAG,"Le message est bien envoyé !");
             Toast.makeText(getApplicationContext(),"Le message est bien envoyé !",
-                    Toast.LENGTH_LONG).show();
-        }
-        else if (distance == 0) {
-            Log.e( LOG_TAG,"ça ne marche pas");
-            Toast.makeText(getApplicationContext(),"ça ne marche pas",
                     Toast.LENGTH_LONG).show();
         }
         else {
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     public double getDistanceBetweenTwoPoints(double lat1, double lon1, double lat2, double lon2){
         if (lat1 == 0 && lon1 == 0) {
-            return 0;
+            return 1000;
         }
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(lat2-lat1);
