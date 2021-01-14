@@ -11,7 +11,6 @@ public class GlobalActivity extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPreferences userInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = userInfo.edit();
         String Numero = userInfo.getString("phoneNo","");
         String nom = userInfo.getString("nom", "");
         if((nom.isEmpty()) || (Numero.isEmpty()))
@@ -20,11 +19,6 @@ public class GlobalActivity extends Application {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
-        }
-        else {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
         }
     }
 }
