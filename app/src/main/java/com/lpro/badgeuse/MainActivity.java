@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             latitude = 0.0;
             longitude = 0.0;
         }
+
                 askPermissionAndSendSMS();
 
     }
