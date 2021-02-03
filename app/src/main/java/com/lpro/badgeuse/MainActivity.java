@@ -31,13 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "AndroidExample";
 
 
-    private EditText phoneForm;
     Location gps_loc;
     Location network_loc;
     Location final_loc;
     double longitude;
     double latitude;
-    private Button sendButton;
     double latitudeTravail = 49.660865783691406;
     double longitudeTravail = 3.3454840183258057;
 
@@ -46,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        this.phoneForm = (EditText) this.findViewById(R.id.editText_Numero);
-
-        this.sendButton = (Button) this.findViewById(R.id.button_envoyer);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -105,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         double distance = getDistanceBetweenTwoPoints(latitude,longitude,latitudeTravail,longitudeTravail);
         // Vérification
         if (distance == 1000) {
-            Log.e( LOG_TAG,"Probleme de permissions");
-            Toast.makeText(getApplicationContext(),"Probleme de permissions",
+            Log.e( LOG_TAG,"Active le GPS");
+            Toast.makeText(getApplicationContext(),"Active le GPS",
                     Toast.LENGTH_LONG).show();
         }
         else if (distance <= 500) {
